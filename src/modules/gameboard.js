@@ -1,10 +1,10 @@
 import ship from './ship.js'
 
 export default class Gameboard {
-    constructor(n=10) {
+    constructor() {
         this._grid = [];
-        for (let i = 0; i < n; i++) {
-            this._grid.push(Array(n).fill(null));
+        for (let i = 0; i < 10; i++) {
+            this._grid.push(Array(10).fill(null));
         }
         this._missedAttacks = [];
         this._ships = [];
@@ -61,7 +61,7 @@ export default class Gameboard {
             this._missedAttacks.push(coordinate);
         }
         // Report if all ships have been sunk
-        this.checkAllShips();
+        return this.checkAllShips();
     }
 
     checkAllShips() {

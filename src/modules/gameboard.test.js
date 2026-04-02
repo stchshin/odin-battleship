@@ -2,7 +2,7 @@ import Gameboard from './gameboard.js'
 import Ship from './ship.js'
 
 test('Creates gameboard', () => {
-  expect(new Gameboard(10)).toBeInstanceOf(Gameboard);
+  expect(new Gameboard()).toBeInstanceOf(Gameboard);
 });
 
 test('Places ship', () => {

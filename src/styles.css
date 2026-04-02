@@ -1,0 +1,56 @@
+@import url('https://fonts.googleapis.com/css2?family=Bitcount+Single:wght@100..900&family=Open+Sans:ital,wght@0,300;1,300&display=swap');
+
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    font-family: 'Bitcount Single';
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    height: 100vh;
+    position: relative;
+    background-color: #ffffe0;
+}
+
+h1 {
+    font-size: 2.5rem;
+    font-weight: normal;
+    color: #e1bdff;
+}
+
+body > p {
+    font-size: 1.5rem;
+}
+
+.boardsContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5rem;
+}
+
+.gameboard {
+    width: calc(10 * 2.5rem + 2px);
+    height: calc(10 * 2.5rem + 2px);
+    line-height: 0;
+    border: solid 1px #1c5c2d;
+}
+
+.grid {
+    width: 2.5rem;
+    height: 2.5rem;
+    border: solid 1px #1c5c2d;
+    display: inline-block;
+}
+
+.name {
+    font-size: 2rem;
+    text-align: center;
+    margin-top: 1rem;
+}
