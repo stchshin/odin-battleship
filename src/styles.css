@@ -8,14 +8,23 @@
 }
 
 body {
+    background-color: #ffffbd;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+body > div {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    height: 100vh;
-    position: relative;
     background-color: #ffffe0;
+    height: 90vh;
+    padding: 5rem;
+    border: 5px dotted #525252;
 }
 
 h1 {
@@ -24,8 +33,19 @@ h1 {
     color: #e1bdff;
 }
 
-body > p {
+#result {
     font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: #525252;
+    text-align: right;
+}
+
+#result > p {
+    display: inline;
+}
+
+#result > p:hover {
+    text-decoration: underline;
 }
 
 .boardsContainer {
@@ -36,17 +56,33 @@ body > p {
 }
 
 .gameboard {
-    width: calc(10 * 2.5rem + 2px);
-    height: calc(10 * 2.5rem + 2px);
+    width: calc(10 * 2.5rem + 4px);
+    height: calc(10 * 2.5rem + 4px);
     line-height: 0;
-    border: solid 1px #1c5c2d;
+    border: dashed 2px black;
 }
 
 .grid {
     width: 2.5rem;
     height: 2.5rem;
-    border: solid 1px #1c5c2d;
+    border: dashed 1px black;
     display: inline-block;
+}
+
+.grid[data-y="0"] {
+    border-left: none;
+}
+
+.grid[data-x="0"] {
+    border-top: none;
+}
+
+.grid[data-x="9"] {
+    border-bottom: none;
+}
+
+.grid[data-y="9"] {
+    border-right: none;
 }
 
 .name {

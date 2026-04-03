@@ -47,21 +47,27 @@ export default class Gameboard {
     }
 
     receiveAttack(coordinate) {
-        if (this.grid[coordinate[0]][coordinate[1]]) {
-            if (this.grid[coordinate[0]][coordinate[1]] != 'hit') {
+        // Something exists on grid (ship / hit / miss)
+        if (this.grid[coordinate[0]][coordinate[1]] != null) {
+            // Hit or miss - has been clicked already
+            if (this.grid[coordinate[0]][coordinate[1]] == 'hit' || this.grid[coordinate[0]][coordinate[1]] == 'miss') {
+                return false;
+            } else {
+                // Ship has not been hit already
                 const shipId = this.grid[coordinate[0]][coordinate[1]];
                 const attackedShip = this._ships.find(ship => ship.id == shipId);
                 attackedShip.hit();
                 this._grid[coordinate[0]][coordinate[1]] = 'hit';
             }
-            else {
-                throw new Error('This grid has been attacked already')
-            }
+        // Empty grid
         } else {
             this._missedAttacks.push(coordinate);
+            this._grid[coordinate[0]][coordinate[1]] = 'miss';
         }
         // Report if all ships have been sunk
-        return this.checkAllShips();
+        if (this.checkAllShips()) {
+            return true;
+        };
     }
 
     checkAllShips() {

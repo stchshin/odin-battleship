@@ -18,47 +18,84 @@ export function createGameboard(player, parentContainer) {
     return gameboardDiv;
 }
 
-export function clickGameboard(player, gameState) {
-    document.querySelector(`[data-gbplayer="${player.type}"]`).addEventListener('click', function(event) {
-        if (gameState.turn == player.type) {
+export function clickGameboard(attacker, defender, gameState) {
+    document.querySelector(`[data-gbplayer="${defender.type}"]`).addEventListener('click', function(event) {
+        if (gameState.turn == attacker.type) {
             let target = event.target.closest('.grid');
             if (target) {
                 let x = target.getAttribute('data-x');
                 let y = target.getAttribute('data-y');
-                try {
-                    let result = player.gameboard.receiveAttack([x, y]);
-                    let status;
-                    if (player.gameboard.grid[x][y] == 'hit') {
-                        status = true;
-                    } else {
-                        status = false;
-                    }
-                    updateGameboard(player, [x, y], status);
-                    // Change turns
-                    if (gameState.turn == 'Human') {
-                        gameState.turn = 'Computer';
-                    } else {
-                        gameState.turn = 'Human';
-                    }
-                    // Game over (win!)
-                    if (result === true) {
-                        console.log('done');
-                    }
-                } catch (error) {
-                    console.log('There was an error...');
+            
+                let result = defender.gameboard.receiveAttack([x, y]);
+                // Grid has been clicked already
+                if (result == false) {
+                    return;
                 }
+
+                // Update game UI
+                let status;
+                if (defender.gameboard.grid[x][y] == 'hit') {
+                    status = true;
+                } else {
+                    status = false;
+                }
+                updateGameboard(defender, [x, y], status, gameState);
+                // Game over (win!)
+                if (result === true) {
+                    let winner;
+                    if (gameState.turn == 'Human') {
+                        winner = 'Player';
+                    } else {
+                        winner = 'Computer';
+                    }
+                    document.querySelector('#result').textContent = `(*^ω^*) ${winner} wins!(*^▽^*)`;
+
+                    // New game
+                    let startAgain = document.createElement("p");
+                    startAgain.textContent = '→ New Game☽˚｡⋆'
+                    document.querySelector('#result').append(startAgain);
+                    startAgain.addEventListener('click', function() {
+                        location.reload();
+                    })
+
+                    gameState.gameOver = true;
+                    return;
+                }
+                // Change turns
+                if (gameState.turn == 'Human') {
+                    gameState.turn = 'Computer';
+                    document.querySelector('#turn').textContent = gameState.turn;
+                    setTimeout(() => computerClick(gameState), 600);
+                } else {
+                    gameState.turn = 'Human';
+                    document.querySelector('#turn').textContent = gameState.turn;
+                }
+            
             }
         }
     })
 }
 
-export function updateGameboard(player, coordinate, status) {
+function updateGameboard(defender, coordinate, status, gameState) {
     // Find player's gameboard and the grid to change
-    let gameboard = document.querySelector(`[data-gbplayer=${player.type}]`);
-    let grid = gameboard.querySelector(`[data-x="${coordinate[0]}"][data-y="${coordinate[1]}"]`);
-    if (status == true) {
-        grid.style.backgroundColor = '#d6feff';
-    } else {
-        grid.style.backgroundColor = '#ffe8f5';
+    if (gameState.gameOver == false) {
+        let gameboard = document.querySelector(`[data-gbplayer=${defender.type}]`);
+        let grid = gameboard.querySelector(`[data-x="${coordinate[0]}"][data-y="${coordinate[1]}"]`);
+        if (status == true) {
+            grid.style.backgroundColor = '#d6feff';
+        } else {
+            grid.style.backgroundColor = '#ffe8f5';
+        }
+    }
+}
+
+function computerClick(gameState) {
+    // Computer clicks randomly
+    if (gameState.turn == 'Computer') {
+        let index = Math.floor(Math.random() * gameState.availableGrids.length);
+        let coordinate = gameState.availableGrids[index];
+        gameState.availableGrids.splice(index, 1);
+        let grid = document.querySelector(`[data-gbplayer="Human"]`).querySelector(`[data-x="${coordinate[0]}"][data-y="${coordinate[1]}"]`);
+        grid.click();
     }
 }

@@ -1,5 +1,5 @@
 import "./styles.css";
-import { createGameboard, clickGameboard, updateGameboard } from "./modules/DOMcontrol.js";
+import { createGameboard, clickGameboard } from "./modules/DOMcontrol.js";
 import Player from "./modules/player.js";
 import Ship from "./modules/ship.js";
 
@@ -29,9 +29,16 @@ function newGame() {
     boardsContainer.append(playerBoardContainer, computerBoardContainer);
     document.querySelector('#container').append(boardsContainer);
 
-    let gameState = {'turn': 'Human'};
-    clickGameboard(player, gameState);
-    clickGameboard(computer, gameState);
+    // Array of grids computer can choose from
+    let gridsArray = [];
+    for (let i = 0; i < 10; i++) {
+        for (let j = 0; j < 10; j++) {
+            gridsArray.push([i, j]);
+        }
+    }
+    let gameState = {'turn': 'Human', 'availableGrids': gridsArray, 'gameOver': false };
+    clickGameboard(player, computer, gameState);
+    clickGameboard(computer, player, gameState);
 
     // Temporary code
     let ship1 = new Ship(5);
@@ -44,6 +51,7 @@ function newGame() {
     player.gameboard.place(ship3, [7, 3]);
     player.gameboard.place(ship4, [8, 3]);
     player.gameboard.place(ship5, [5, 3]);
+    computer.gameboard.place(ship1, [2, 2]);
     // updateGameboard(player.type, [0, 1], false);
 }
 
