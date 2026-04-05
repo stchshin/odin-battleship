@@ -42,9 +42,7 @@ test('Catches previously attacked grids', () => {
     const ship = new Ship(5);
     gameboard.place(ship, [0, 0]);
     gameboard.receiveAttack([0, 0]);
-    expect(() => {
-        gameboard.receiveAttack([0, 0])
-    }).toThrow('This grid has been attacked already');
+    expect(gameboard.receiveAttack([0, 0])).toBe(false);
 })
 
 test('Reports whether all ships have been sunk', () => {

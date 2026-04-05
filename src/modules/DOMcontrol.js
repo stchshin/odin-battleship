@@ -84,7 +84,7 @@ function updateGameboard(defender, coordinate, status, gameState) {
         if (status == true) {
             grid.style.backgroundColor = '#d6feff';
         } else {
-            grid.style.backgroundColor = '#ffe8f5';
+            grid.style.backgroundColor = '#ffedf3';
         }
     }
 }

@@ -10,17 +10,17 @@ export default class Gameboard {
         this._ships = [];
     }
 
-    placeAvailability(length, coordinate, direction='horizontal') {
-        if (direction == 'horizontal') {
+    placeAvailability(length, coordinate, direction='Horizontal') {
+        if (direction == 'Horizontal') {
             for (let i = 0; i < length; i++) {
-                if (this._grid[coordinate[0]][coordinate[1] + i] != undefined || coordinate[1] + i > this.grid.length || coordinate[1] + i < 0) {
+                if (this._grid[coordinate[0]][coordinate[1] + i] != undefined || coordinate[1] + i >= this.grid.length || coordinate[1] + i < 0) {
                     return false;
                 }
             }
             return true;
         } else {
             for (let i = 0; i < length; i++) {
-                if (this._grid[coordinate[0] + i][coordinate[1]] != undefined || coordinate[0] + i > this.grid.length || coordinate[0] + i < 0) {
+                if (this._grid[coordinate[0] + i][coordinate[1]] != undefined || coordinate[0] + i >= this.grid.length || coordinate[0] + i < 0) {
                     return false;
                 }
             }
@@ -28,9 +28,9 @@ export default class Gameboard {
         }
     }
 
-    place(ship, coordinate, direction='horizontal') {
+    place(ship, coordinate, direction='Horizontal') {
         if (this.placeAvailability(ship.length, coordinate, direction)) {
-            if (direction == 'horizontal') {
+            if (direction == 'Horizontal') {
                 for (let i = 0; i < ship.length; i++) {
                     this._grid[coordinate[0]][coordinate[1] + i] = ship.id;
                 }
@@ -85,5 +85,9 @@ export default class Gameboard {
 
     get missedAttacks() {
         return this._missedAttacks;
+    }
+
+    get ships() {
+        return this._ships;
     }
 }
